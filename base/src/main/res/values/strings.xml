@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Depto Maniger</string>
-    <string name="title_activity_landing_menu">LandingMenu</string>
-    <string name="edit_item_option">Edit</string>
-    <string name="delete_item_option">Delete</string>
-</resources>
