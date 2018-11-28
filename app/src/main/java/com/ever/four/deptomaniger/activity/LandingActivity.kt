@@ -2,6 +2,8 @@ package com.ever.four.deptomaniger.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.coordinatorlayout.R.styleable.CoordinatorLayout
+import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,7 +12,8 @@ import com.ever.four.deptomaniger.R
 import com.ever.four.deptomaniger.adapter.RecyclerAdapter
 import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.OnStartDragListener
-import com.ever.four.deptomaniger.helper.SimpleItemTouchHelperCallback
+import com.ever.four.deptomaniger.helper.ItemTouchHelperCallback
+import com.ever.four.deptomaniger.util.FABHideOnScroll
 import kotlinx.android.synthetic.main.activity_landing.*
 
 
@@ -21,19 +24,23 @@ class LandingActivity : AppCompatActivity(), OnStartDragListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        //recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerAdapter = RecyclerAdapter(mockData(), this)
 
 
-        val callback = SimpleItemTouchHelperCallback(recyclerAdapter)
+        val callback = ItemTouchHelperCallback(recyclerAdapter)
         itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
+        //setupFABBehavior()
         recyclerView.adapter = recyclerAdapter
     }
 
-
+    private fun setupFABBehavior() {
+        var p = addItemBtn.layoutParams as CoordinatorLayout.LayoutParams
+        p.behavior = (FABHideOnScroll());
+        addItemBtn.layoutParams = (p)
+    }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)

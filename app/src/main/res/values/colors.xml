@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--color generated via https://material-ui.com/style/color/-->
 <resources>
-    <color name="colorPrimary">#4caf50</color>
-    <color name="colorPrimaryDark">#357a38</color>
-    <color name="colorPrimaryLight">#6fbf73</color>
+    <color name="colorPrimary">#ffb300</color>
+    <color name="colorPrimaryDark">#c68400</color>
+    <color name="colorPrimaryLight">#ffe54c</color>
+
     <color name="colorBackgroundLoading">#999999</color>
 
-    <color name="colorSecondary">#ffcf33</color>
-    <color name="colorSecondaryDark">#b29023</color>
-    <color name="colorSecondaryLight">#ffd85b</color>
+    <color name="colorSecondary">#37474f</color>
+    <color name="colorSecondaryDark">#102027</color>
+    <color name="colorSecondaryLight">#62727b</color>
 
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorItemMovement">#99FF0000</color>
 </resources>

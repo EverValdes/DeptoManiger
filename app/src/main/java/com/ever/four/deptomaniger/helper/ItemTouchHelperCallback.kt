@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 
-class SimpleItemTouchHelperCallback: ItemTouchHelper.Callback {
+class ItemTouchHelperCallback: ItemTouchHelper.Callback {
     val ALPHA_FULL = 1.0f
 
     private val itemTouchHelperAdapter: ItemTouchHelperAdapter
