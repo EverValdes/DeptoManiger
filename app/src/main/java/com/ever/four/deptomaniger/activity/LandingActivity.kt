@@ -5,39 +5,38 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.ever.four.deptomaniger.R
 import com.ever.four.deptomaniger.adapter.RecyclerAdapter
 import com.ever.four.deptomaniger.entity.ItemEntity
+import com.ever.four.deptomaniger.helper.OnStartDragListener
+import com.ever.four.deptomaniger.helper.SimpleItemTouchHelperCallback
 import kotlinx.android.synthetic.main.activity_landing.*
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.View
-import com.ever.four.deptomaniger.adapter.SimpleAdapter
-import com.ever.four.deptomaniger.util.SwipeToDeleteCallback
 
 
-class LandingActivity : AppCompatActivity(), View.OnClickListener {
-    private val simpleAdapter = SimpleAdapter((1..5).map { "Item: $it" }.toMutableList())
+class LandingActivity : AppCompatActivity(), OnStartDragListener {
+    private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = simpleAdapter
-        val swipeHandler = object : SwipeToDeleteCallback(this) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = recyclerView.adapter as SimpleAdapter
-                adapter.removeAt(viewHolder.adapterPosition)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        recyclerAdapter = RecyclerAdapter(mockData(), this)
+
+
+        val callback = SimpleItemTouchHelperCallback(recyclerAdapter)
+        itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        addItemBtn.setOnClickListener(this)
+
+        recyclerView.adapter = recyclerAdapter
     }
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.addItemBtn -> simpleAdapter.addItem("New item")
-        }
+
+
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
     }
 
     fun mockData(): List<ItemEntity>{
