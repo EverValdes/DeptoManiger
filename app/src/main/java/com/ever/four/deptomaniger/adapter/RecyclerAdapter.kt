@@ -1,7 +1,6 @@
 package com.ever.four.deptomaniger.adapter
 
-import android.graphics.Color
-import android.support.v7.widget.CardView
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -13,32 +12,32 @@ import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.ItemTouchHelperAdapter
 import com.ever.four.deptomaniger.helper.ItemTouchHelperViewHolder
 import com.ever.four.deptomaniger.helper.OnStartDragListener
-import kotlinx.android.synthetic.main.item.view.*
+import kotlinx.android.synthetic.main.new_item.view.*
 import java.util.*
 
 class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTouchHelperAdapter {
 
 
-    protected var list: List<ItemEntity>
+    private var list: MutableList<ItemEntity>
     private val onStartDragListener: OnStartDragListener
-    constructor(list: List<ItemEntity>, onStartDragListener: OnStartDragListener) {
+    constructor(list: MutableList<ItemEntity>, onStartDragListener: OnStartDragListener) {
         this.list = list
         this.onStartDragListener = onStartDragListener
     }
 
     inner class ViewHolder: RecyclerView.ViewHolder, ItemTouchHelperViewHolder {
-        var card: CardView
+        var content: ConstraintLayout
         var name: TextView
-        var owner: TextView
+        var shopper: TextView
         var description: TextView
         //var currency: TextView
         var amount: TextView
 
         constructor(view: View): super(view) {
             //var position: Int = getAdapterPosition()
-            card = view.card
+            content = view.content
             name = view.name
-            owner = view.owner
+            shopper = view.shopper
             description = view.description
             //currency = view.currency
             amount = view.amount
@@ -46,25 +45,25 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTou
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            //itemView.setBackgroundColor(Color.LTGRAY)
         }
 
         override fun onItemUnselected() {
-            itemView.setBackgroundColor(Color.WHITE)
+            //itemView.setBackgroundColor(Color.WHITE)
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.item, viewGroup, false)
-        return ViewHolder(v)
+        return ViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.new_item, viewGroup, false))
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.name.text = list[i].name
         list[i].description?.let {
+            viewHolder.content.visibility = View.VISIBLE
             viewHolder.description.text = it
         }
-        viewHolder.owner.text = list[i].owner
+        viewHolder.shopper.text = list[i].shopper
         viewHolder.amount.text = '$' + list[i].amount.toString()
 
         viewHolder.name.setOnTouchListener(View.OnTouchListener { _, motionEvent ->
@@ -88,7 +87,12 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTou
     }
 
     override fun onItemDismiss(position: Int) {
-        list.drop(position)
+        list.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun addNew(element: ItemEntity) {
+        list.add(element)
+        notifyDataSetChanged()
     }
 }

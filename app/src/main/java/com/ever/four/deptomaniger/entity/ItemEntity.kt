@@ -1,10 +1,12 @@
 package com.ever.four.deptomaniger.entity
 
-data class ItemEntity(var name: String, var owner: String, var amount: Int) {
+import java.io.Serializable
+
+data class ItemEntity(var name: String, var shopper: String, var amount: Double): Serializable {
     var currency: String = "$"
-    var description: String = ""
+    var description: String? = null
     fun clone(): ItemEntity {
-        return ItemEntity (name, owner, amount)
+        return ItemEntity (name, shopper, amount)
     }
 
 }
