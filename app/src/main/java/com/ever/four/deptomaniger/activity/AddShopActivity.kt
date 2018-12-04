@@ -9,21 +9,22 @@ import com.ever.four.deptomaniger.R
 import com.ever.four.deptomaniger.entity.ItemEntity
 import kotlinx.android.synthetic.main.activity_add_shop.*
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.support.design.widget.TextInputEditText
 import android.text.TextWatcher
-import android.util.AttributeSet
-import android.view.View
+import android.widget.EditText
+import android.widget.ArrayAdapter
+import com.ever.four.deptomaniger.util.SharedPreferencesManager
 
 
 class AddShopActivity : AppCompatActivity() {
     lateinit var manageMenuItem: MenuItem
+    private lateinit var cacheManager: SharedPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_shop)
 
+        cacheManager = SharedPreferencesManager.getInstance(this)
         setupFieldsBehavior()
     }
 
@@ -49,6 +50,7 @@ class AddShopActivity : AppCompatActivity() {
             if (!inputList.text.isNullOrBlank()) {
                 newShop.description = inputList.text.toString()
             }
+            saveNewName(shopperName.text.toString())
             val returnIntent = Intent()
             returnIntent.putExtra("result", newShop)
             setResult(Activity.RESULT_OK, returnIntent)
@@ -58,8 +60,8 @@ class AddShopActivity : AppCompatActivity() {
 
     }
 
-    private fun retrieveMandatoryFields(): List<TextInputEditText?> {
-        return listOf<TextInputEditText?>(expenseName, shopperName, inputTotal)
+    private fun retrieveMandatoryFields(): List<EditText?> {
+        return listOf<EditText?>(expenseName, shopperName, inputTotal)
     }
 
     private fun setupSaveButtonBehavior(menu: MenuItem?) {
@@ -76,8 +78,36 @@ class AddShopActivity : AppCompatActivity() {
         menu?.isEnabled = enableSaveButton
     }
 
+    private fun loadAutoSuggest() {
+        cacheManager.putName(value = "Emanuel")
+        cacheManager.putName(value = "Damian")
+        cacheManager.putName(value = "Neko")
+        cacheManager.putName(value = "John")
+        cacheManager.putName(value = "Juanin")
+
+        var storeNames = cacheManager.getName()
+        var arr = ArrayList<String>()
+        var index = 0
+        for (i in storeNames) {
+            arr.add(index, i)
+            index++
+
+        }
+        shopperName.threshold = 2
+        shopperName.setAdapter(ArrayAdapter<String>(this, android.R.layout.select_dialog_item, arr))
+    }
+
+    private fun saveNewName(name: String) {
+        cacheManager.putName(value = name)
+    }
+
     private fun setupFieldsBehavior() {
-        var listener = object : TextWatcher {
+        /*val arr = listOf<String>( "Emanuel", "Damian", "Neko", "John", "Juan", "Juanin")
+        shopperName.threshold = 2
+        shopperName.setAdapter(ArrayAdapter<String>(this, android.R.layout.select_dialog_item, arr))*/
+        loadAutoSuggest()
+
+        var mandatoryFieldListener = object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }
@@ -95,25 +125,34 @@ class AddShopActivity : AppCompatActivity() {
                 manageMenuItem.isEnabled = !enable
             }
         }
-        expenseName.addTextChangedListener(listener)
-        shopperName.addTextChangedListener(listener)
-        inputTotal.addTextChangedListener(listener)
+        expenseName.addTextChangedListener(mandatoryFieldListener)
+        shopperName.addTextChangedListener(mandatoryFieldListener)
+        inputTotal.addTextChangedListener(mandatoryFieldListener)
 
-        /*val bulletPoint = getString(R.string.bullet_point)
+        val bulletPoint = getString(R.string.bullet_point) + " "
         inputList.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (inputList.text.isNullOrBlank()) {
-                    inputList.text = Editable.Factory.getInstance().newEditable(bulletPoint)
+                if (p0.toString().takeLast(1).equals("\n") and !p0.toString().takeLast(3).equals("\n" + bulletPoint)) {
+                    inputList.setText(p0.toString().substring(0, p0.toString().length - 1) + "\n" + bulletPoint)
+                    inputList.setSelection(inputList.length())
                 }
-            }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
-        })*/
+
+            override fun beforeTextChanged(textEntered: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(textEntered: CharSequence?, start: Int, end: Int, count: Int) {
+                if (!textEntered.isNullOrBlank() and !textEntered?.startsWith(bulletPoint)!! ) {
+                    inputList.setText(bulletPoint + textEntered)
+                    inputList.setSelection(inputList.length())
+                }
+
+
+
+            }
+        })
     }
 }

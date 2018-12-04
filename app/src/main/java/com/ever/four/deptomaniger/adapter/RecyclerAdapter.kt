@@ -26,7 +26,7 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTou
     }
 
     inner class ViewHolder: RecyclerView.ViewHolder, ItemTouchHelperViewHolder {
-        var content: ConstraintLayout
+        var containerDescription: ConstraintLayout
         var name: TextView
         var shopper: TextView
         var description: TextView
@@ -35,7 +35,7 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTou
 
         constructor(view: View): super(view) {
             //var position: Int = getAdapterPosition()
-            content = view.content
+            containerDescription = view.content
             name = view.name
             shopper = view.shopper
             description = view.description
@@ -60,7 +60,7 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTou
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.name.text = list[i].name
         list[i].description?.let {
-            viewHolder.content.visibility = View.VISIBLE
+            viewHolder.containerDescription.visibility = View.VISIBLE
             viewHolder.description.text = it
         }
         viewHolder.shopper.text = list[i].shopper
