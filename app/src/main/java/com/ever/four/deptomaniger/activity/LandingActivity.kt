@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import com.ever.four.deptomaniger.R
-import com.ever.four.deptomaniger.adapter.RecyclerAdapter
+import com.ever.four.deptomaniger.adapter.RecyclerAdapterList
 import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.OnStartDragListener
 import com.ever.four.deptomaniger.helper.ItemTouchHelperCallback
@@ -21,14 +21,14 @@ import android.app.Activity
 
 
 class LandingActivity : AppCompatActivity(), OnStartDragListener {
-    private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var recyclerAdapter: RecyclerAdapterList
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerAdapter = RecyclerAdapter(mockData(), this)
+        recyclerAdapter = RecyclerAdapterList(mockData(), this)
 
 
         val callback = ItemTouchHelperCallback(recyclerAdapter)
@@ -50,20 +50,6 @@ class LandingActivity : AppCompatActivity(), OnStartDragListener {
                 recyclerAdapter.addNew(result as ItemEntity)
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
-    }
-
-    private fun formatList(noteText: String) {
-        val lines = noteText.split("\n")
-
-        for (i in lines.indices) {
-            //The note title. Don't add a bullet point
-            if (i == 0) {
-                //pad.setText(lines[i])
-            } else {
-                //pad.append("\n" + "\u2022" + "  " + lines[i])
             }
         }
     }

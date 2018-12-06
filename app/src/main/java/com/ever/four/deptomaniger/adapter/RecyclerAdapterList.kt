@@ -15,7 +15,7 @@ import com.ever.four.deptomaniger.helper.OnStartDragListener
 import kotlinx.android.synthetic.main.new_item.view.*
 import java.util.*
 
-class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>, ItemTouchHelperAdapter {
+class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>, ItemTouchHelperAdapter {
 
 
     private var list: MutableList<ItemEntity>
