@@ -31,7 +31,6 @@ class AddShopActivity : AppCompatActivity() {
         cacheManager = SharedPreferencesManager.getInstance(this)
         setupFieldsBehavior()
 
-
         recyclerDetailView.layoutManager = LinearLayoutManager(this)
         recyclerDetailAdapter = RecyclerAdapterDetail(mutableListOf(""))
 
@@ -39,7 +38,6 @@ class AddShopActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         menuInflater.inflate(R.menu.single_item_menu, menu)
         manageMenuItem = menu?.findItem(R.id.menu_item)!!
 
@@ -50,18 +48,14 @@ class AddShopActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
         return if (id == R.id.menu_item) {
             var newShop = ItemEntity(expenseName.text.toString(), shopperName.text.toString(), inputTotal.text.toString().toDouble())
-            if (!recyclerDetailAdapter.list[0].isNullOrBlank()) {
-                for (detailDescription in recyclerDetailAdapter.list) {
+            for (detailDescription in recyclerDetailAdapter.list) {
+                if (!detailDescription.isNullOrBlank()) {
                     newShop.description += detailDescription + "\n"
                 }
-
             }
             saveNewName(shopperName.text.toString())
             val returnIntent = Intent()
@@ -87,7 +81,6 @@ class AddShopActivity : AppCompatActivity() {
                 break
             }
         }
-
         menu?.isEnabled = enableSaveButton
     }
 
@@ -98,7 +91,6 @@ class AddShopActivity : AppCompatActivity() {
         for (i in storeNames) {
             arr.add(index, i)
             index++
-
         }
         shopperName.threshold = 2
         shopperName.setAdapter(ArrayAdapter<String>(this, android.R.layout.select_dialog_item, arr))
@@ -112,13 +104,9 @@ class AddShopActivity : AppCompatActivity() {
         loadAutoSuggest()
 
         var mandatoryFieldListener = object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(p0: Editable?) {}
 
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val expenseName= expenseName.text
@@ -150,12 +138,7 @@ class AddShopActivity : AppCompatActivity() {
                     inputList.setText(bulletPoint + textEntered)
                     inputList.setSelection(inputList.length())
                 }
-
-
-
             }
         })*/
-
-
     }
 }
