@@ -11,18 +11,18 @@ import com.ever.four.deptomaniger.R
 import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.ItemTouchHelperAdapter
 import com.ever.four.deptomaniger.helper.ItemTouchHelperViewHolder
-import com.ever.four.deptomaniger.helper.OnStartDragListener
+import com.ever.four.deptomaniger.helper.DragListener
 import kotlinx.android.synthetic.main.new_item.view.*
 import java.util.*
 
 class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>, ItemTouchHelperAdapter {
 
 
-    private var list: MutableList<ItemEntity>
-    private val onStartDragListener: OnStartDragListener
-    constructor(list: MutableList<ItemEntity>, onStartDragListener: OnStartDragListener) {
+    private var list: MutableList<ItemEntity> = emptyList<ItemEntity>().toMutableList()
+    private val dragSwipeView: DragListener
+    constructor(list: MutableList<ItemEntity>, dragSwipeView: DragListener) {
         this.list = list
-        this.onStartDragListener = onStartDragListener
+        this.dragSwipeView = dragSwipeView
     }
 
     inner class ViewHolder: RecyclerView.ViewHolder, ItemTouchHelperViewHolder {
@@ -30,7 +30,6 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
         var name: TextView
         var shopper: TextView
         var description: TextView
-        //var currency: TextView
         var amount: TextView
 
         constructor(view: View): super(view) {
@@ -39,8 +38,16 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
             name = view.name
             shopper = view.shopper
             description = view.description
-            //currency = view.currency
             amount = view.amount
+
+            view.setOnClickListener { _: View  ->
+                var position: Int = getAdapterPosition()
+                /*var intentDetail = Intent(itemView.context, DescriptionActivity::class.java)
+                intentDetail.putExtra("title", list[position].title)
+                intentDetail.putExtra("description", list[position].description)
+                intentDetail.putExtra("image", list[position].image)
+                itemView.context.startActivity(intentDetail)*/
+            }
 
         }
 
@@ -59,17 +66,23 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.name.text = list[i].name
-        list[i].description?.let {
-            viewHolder.containerDescription.visibility = View.VISIBLE
-            viewHolder.description.text = it
+        var descriptionList = list[i].description
+        if ((descriptionList.size > 1)) {
+            if ( !descriptionList[0].isNullOrBlank()) {
+                viewHolder.containerDescription.visibility = View.VISIBLE
+                for (description in list[i].description) {
+                    viewHolder.description.text = viewHolder.description.text.toString() + description + "\n"
+                }
+            }
         }
+
         viewHolder.shopper.text = list[i].shopper
         viewHolder.amount.text = '$' + list[i].amount.toString()
 
         viewHolder.name.setOnTouchListener(View.OnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    onStartDragListener.onStartDrag(viewHolder)
+                    dragSwipeView.onStartDrag(viewHolder)
                 }
             }
             return@OnTouchListener false
@@ -88,10 +101,16 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
 
     override fun onItemDismiss(position: Int) {
         list.removeAt(position)
+        dragSwipeView.onElementRemoved()
         notifyItemRemoved(position)
     }
 
-    fun addNew(element: ItemEntity) {
+    fun setupElements(elements: MutableList<ItemEntity>) {
+        list = elements
+        notifyDataSetChanged()
+    }
+
+    fun addElement(element: ItemEntity) {
         list.add(element)
         notifyDataSetChanged()
     }

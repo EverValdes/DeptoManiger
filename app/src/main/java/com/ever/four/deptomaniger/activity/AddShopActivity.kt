@@ -27,6 +27,7 @@ class AddShopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_shop)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         cacheManager = SharedPreferencesManager.getInstance(this)
         setupFieldsBehavior()
@@ -54,7 +55,7 @@ class AddShopActivity : AppCompatActivity() {
             var newShop = ItemEntity(expenseName.text.toString(), shopperName.text.toString(), inputTotal.text.toString().toDouble())
             for (detailDescription in recyclerDetailAdapter.list) {
                 if (!detailDescription.isNullOrBlank()) {
-                    newShop.description += detailDescription + "\n"
+                    newShop.description.add(detailDescription)
                 }
             }
             saveNewName(shopperName.text.toString())

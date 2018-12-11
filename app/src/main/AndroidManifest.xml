@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AddShopActivity">
+        <activity android:name=".activity.AddShopActivity"
+                  android:parentActivityName=".activity.LandingActivity">
         </activity>
     </application>
 

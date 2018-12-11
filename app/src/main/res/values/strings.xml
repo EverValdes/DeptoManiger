@@ -4,8 +4,9 @@
     <string name="error">Error</string>
     <string name="cancel">Close</string>
     <string name="retry">Retry</string>
+    <string name="no_data_entered">There is not data added at this time. \nTry adding a new one by tapping on the <b>Plus</b> button</string>
     <string name="unknown_error">Something went wrong, retry again or come back later</string>
-    <string name="no_data">There is no available data at this time, try again or come back later</string>
+    <string name="no_data_available">There is no available data at this time, try again or come back later</string>
     <string name="no_connection">There is no network at this time, try again or come back later</string>
 
     <!-- New expense view -->

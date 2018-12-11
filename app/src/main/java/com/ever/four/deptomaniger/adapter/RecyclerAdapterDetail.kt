@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.detail_element.view.*
 
 class RecyclerAdapterDetail: RecyclerView.Adapter<RecyclerAdapterDetail.ViewHolder> {
     var list: MutableList<String>
-    var num = 1
     constructor(list: MutableList<String>) {
         this.list = list
     }
