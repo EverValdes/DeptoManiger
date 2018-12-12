@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AddShopActivity"
-                  android:parentActivityName=".activity.LandingActivity">
+                  android:parentActivityName=".activity.LandingActivity"
+                  android:launchMode="singleInstance">
         </activity>
     </application>
 

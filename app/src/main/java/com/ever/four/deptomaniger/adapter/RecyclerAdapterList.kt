@@ -1,5 +1,6 @@
 package com.ever.four.deptomaniger.adapter
 
+import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.ever.four.deptomaniger.R
+import com.ever.four.deptomaniger.activity.AddShopActivity
 import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.ItemTouchHelperAdapter
 import com.ever.four.deptomaniger.helper.ItemTouchHelperViewHolder
 import com.ever.four.deptomaniger.helper.DragListener
+import com.ever.four.deptomaniger.util.BundleIdentifier
 import kotlinx.android.synthetic.main.new_item.view.*
 import java.util.*
 
@@ -41,12 +44,15 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
             amount = view.amount
 
             view.setOnClickListener { _: View  ->
-                var position: Int = getAdapterPosition()
-                /*var intentDetail = Intent(itemView.context, DescriptionActivity::class.java)
-                intentDetail.putExtra("title", list[position].title)
-                intentDetail.putExtra("description", list[position].description)
-                intentDetail.putExtra("image", list[position].image)
-                itemView.context.startActivity(intentDetail)*/
+                var position: Int = adapterPosition
+                var intentDetail = Intent(itemView.context, AddShopActivity::class.java).also {
+                    it.putExtra(BundleIdentifier.NEW_SHOP.Index.toString(), position)
+                    it.putExtra(BundleIdentifier.NEW_SHOP.Instance.toString(), list[position])
+                    dragSwipeView.onEditElement(it)
+                }
+                intentDetail.putExtra(BundleIdentifier.NEW_SHOP.Index.toString(), position)
+                intentDetail.putExtra(BundleIdentifier.NEW_SHOP.Instance.toString(), list[position])
+                itemView.context.startActivity(intentDetail)
             }
 
         }
@@ -67,8 +73,8 @@ class RecyclerAdapterList: RecyclerView.Adapter<RecyclerAdapterList.ViewHolder>,
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.name.text = list[i].name
         var descriptionList = list[i].description
-        if ((descriptionList.size > 1)) {
-            if ( !descriptionList[0].isNullOrBlank()) {
+        if ((descriptionList.size > 0)) {
+            if (!descriptionList[0].isNullOrBlank()) {
                 viewHolder.containerDescription.visibility = View.VISIBLE
                 for (description in list[i].description) {
                     viewHolder.description.text = viewHolder.description.text.toString() + description + "\n"

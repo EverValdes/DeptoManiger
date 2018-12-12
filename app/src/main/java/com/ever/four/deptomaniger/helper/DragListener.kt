@@ -1,5 +1,6 @@
 package com.ever.four.deptomaniger.helper
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 
 interface DragListener {
@@ -11,4 +12,6 @@ interface DragListener {
     fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
 
     fun onElementRemoved()
+
+    fun onEditElement(intent: Intent)
 }

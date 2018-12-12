@@ -11,17 +11,20 @@ import com.ever.four.deptomaniger.adapter.RecyclerAdapterList
 import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.DragListener
 import com.ever.four.deptomaniger.helper.ItemTouchHelperCallback
-import com.ever.four.deptomaniger.util.ActivityResult
+import com.ever.four.deptomaniger.util.BundleIdentifier
 import kotlinx.android.synthetic.main.activity_landing.*
 import android.app.Activity
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Typeface
 import android.view.View
 import com.ever.four.deptomaniger.model.ItemViewModel
 
 class LandingActivity : AppCompatActivity(), DragListener {
+
+
     private lateinit var recyclerAdapter: RecyclerAdapterList
     private lateinit var itemTouchHelper: ItemTouchHelper
 
@@ -47,6 +50,7 @@ class LandingActivity : AppCompatActivity(), DragListener {
         recyclerView.adapter = recyclerAdapter
 
         displayNoDataHint()
+        setupHintText()
         setupAddItemBtn()
     }
 
@@ -55,19 +59,31 @@ class LandingActivity : AppCompatActivity(), DragListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == ActivityResult.NEW_ITEM) {
-            if (resultCode == Activity.RESULT_OK) {
-                val result = data?.getSerializableExtra("result")
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == BundleIdentifier.NEW_ITEM) {
+                val result = data?.getSerializableExtra(BundleIdentifier.NEW_SHOP.Instance.toString())
 
                 viewModel?.addDataToList(result as ItemEntity)
                 //recyclerAdapter.addElement(result as ItemEntity)
             }
-            if (resultCode == Activity.RESULT_CANCELED) {}
+            if (requestCode == BundleIdentifier.MODIFIED_ITEM) {
+                val result = data?.getSerializableExtra(BundleIdentifier.NEW_SHOP.Instance.toString())
+                var index = 0
+                index = data?.getIntExtra(BundleIdentifier.NEW_SHOP.Index.toString(), 0) as Int
+
+                viewModel?.addDataToList(index, result as ItemEntity)
+            }
         }
+        if (resultCode == Activity.RESULT_CANCELED) {}
+
     }
 
     override fun onElementRemoved() {
         displayNoDataHint()
+    }
+
+    override fun onEditElement(intent: Intent) {
+        startActivityForResult(intent, BundleIdentifier.MODIFIED_ITEM)
     }
 
     fun mockData(): LiveData<MutableList<ItemEntity>> {
@@ -91,10 +107,15 @@ class LandingActivity : AppCompatActivity(), DragListener {
         return elements
     }
 
+    private fun setupHintText() {
+        noHintText.typeface = Typeface.createFromAsset(
+            this.getAssets(),
+            "font/Roboto-Light.ttf");
+    }
     private fun setupAddItemBtn() {
         addItemBtn.setOnClickListener {
             Intent(this, AddShopActivity::class.java).also {
-                startActivityForResult(it, ActivityResult.NEW_ITEM)
+                startActivityForResult(it, BundleIdentifier.NEW_ITEM)
             }
         }
     }

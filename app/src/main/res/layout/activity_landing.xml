@@ -10,22 +10,39 @@
         android:padding="@dimen/large_space"
         tools:context=".activity.LandingActivity">
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+    >
 
         <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/noDataHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        >
 
             <TextView
-                    android:id="@+id/noDataHint"
+                    android:id="@+id/noHintText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_data_entered"
                     android:textSize="20sp"
+                    android:textAlignment="center"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_gravity="center_vertical|right"
-                    android:visibility="gone"
+
+            />
+
+            <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="@dimen/large_space"
+                    app:layout_constraintTop_toBottomOf="@+id/noHintText"
+                    app:layout_constraintStart_toStartOf="@+id/noHintText"
+                    app:layout_constraintEnd_toEndOf="@+id/noHintText"
+                    android:background="@drawable/empty_box_icon"
             />
         </android.support.constraint.ConstraintLayout>
 
@@ -34,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/addItemBtn"
             android:background="@color/colorSecondary"

@@ -15,7 +15,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ArrayAdapter
 import com.ever.four.deptomaniger.adapter.RecyclerAdapterDetail
-import com.ever.four.deptomaniger.adapter.RecyclerAdapterList
+import com.ever.four.deptomaniger.util.BundleIdentifier
 import com.ever.four.deptomaniger.util.SharedPreferencesManager
 
 
@@ -30,10 +30,11 @@ class AddShopActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         cacheManager = SharedPreferencesManager.getInstance(this)
-        setupFieldsBehavior()
+        //setupFieldsBehavior()
 
         recyclerDetailView.layoutManager = LinearLayoutManager(this)
-        recyclerDetailAdapter = RecyclerAdapterDetail(mutableListOf(""))
+
+        fulfillFields()
 
         recyclerDetailView.adapter = recyclerDetailAdapter
     }
@@ -44,7 +45,7 @@ class AddShopActivity : AppCompatActivity() {
 
         manageMenuItem?.title = resources.getString(R.string.save)
         setupSaveButtonBehavior(manageMenuItem)
-
+        setupFieldsBehavior()
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -60,7 +61,14 @@ class AddShopActivity : AppCompatActivity() {
             }
             saveNewName(shopperName.text.toString())
             val returnIntent = Intent()
-            returnIntent.putExtra("result", newShop)
+            returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Instance.toString(), newShop)
+
+            var extras = intent.extras
+            extras?.let {
+                var index = extras.get(BundleIdentifier.NEW_SHOP.Index.toString()) as Int
+                returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Index.toString(), index)
+            }
+
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
             true
@@ -121,25 +129,20 @@ class AddShopActivity : AppCompatActivity() {
         expenseName.addTextChangedListener(mandatoryFieldListener)
         shopperName.addTextChangedListener(mandatoryFieldListener)
         inputTotal.addTextChangedListener(mandatoryFieldListener)
+    }
 
-        /*inputList.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable?) {
-                if (editable.toString().takeLast(1).equals("\n") and !editable.toString().takeLast(3).equals("\n" + bulletPoint)) {
-                    inputList.setText(editable.toString().substring(0, editable.toString().length - 1) + "\n" + bulletPoint)
-                    inputList.setSelection(inputList.length())
-                }
-            }
+    private fun fulfillFields() {
+        var resultList = mutableListOf("")
+        var extras = intent.extras
+        extras?.let {
+            var shop = extras.get(BundleIdentifier.NEW_SHOP.Instance.toString()) as ItemEntity
+            resultList = shop.description
 
-            override fun beforeTextChanged(textEntered: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(textEntered: CharSequence?, start: Int, end: Int, count: Int) {
-                if (!textEntered.isNullOrBlank() and !textEntered?.startsWith(bulletPoint)!! ) {
-                    inputList.setText(bulletPoint + textEntered)
-                    inputList.setSelection(inputList.length())
-                }
-            }
-        })*/
+            expenseName.setText(shop.name)
+            shopperName.setText(shop.shopper)
+            inputTotal.setText(shop.amount.toString())
+        } ?: run {
+        }
+        recyclerDetailAdapter = RecyclerAdapterDetail(resultList)
     }
 }
