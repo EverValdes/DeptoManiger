@@ -16,12 +16,12 @@ class ItemViewModel: ViewModel() {
         return datum
     }
 
-    fun addDataToList(index: Int, data: ItemEntity) {
+    fun setDataToList(index: Int, data: ItemEntity) {
         list[index] = data
         datum.value = list
     }
 
-    fun addDataToList(data: ItemEntity) {
+    fun setDataToList(data: ItemEntity) {
         list.add(data)
         datum.value = list
     }

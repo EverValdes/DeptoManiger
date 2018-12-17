@@ -51,29 +51,34 @@ class AddShopActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-
-        return if (id == R.id.menu_item) {
-            var newShop = ItemEntity(expenseName.text.toString(), shopperName.text.toString(), inputTotal.text.toString().toDouble())
-            for (detailDescription in recyclerDetailAdapter.list) {
-                if (!detailDescription.isNullOrBlank()) {
-                    newShop.description.add(detailDescription)
+        val returnIntent = Intent()
+        when (id) {
+            R.id.menu_item -> {
+                var newShop = ItemEntity(expenseName.text.toString(), shopperName.text.toString(), inputTotal.text.toString().toDouble())
+                for (detailDescription in recyclerDetailAdapter.list) {
+                    if (!detailDescription.isNullOrBlank()) {
+                        newShop.description.add(detailDescription)
+                    }
                 }
+                saveNewName(shopperName.text.toString())
+                returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Instance.toString(), newShop)
+
+                var extras = intent.extras
+                extras?.let {
+                    var index = extras.get(BundleIdentifier.NEW_SHOP.Index.toString()) as Int
+                    returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Index.toString(), index)
+                }
+
+                setResult(RESULT_OK, returnIntent)
+                finish()
+                return true
             }
-            saveNewName(shopperName.text.toString())
-            val returnIntent = Intent()
-            returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Instance.toString(), newShop)
-
-            var extras = intent.extras
-            extras?.let {
-                var index = extras.get(BundleIdentifier.NEW_SHOP.Index.toString()) as Int
-                returnIntent.putExtra(BundleIdentifier.NEW_SHOP.Index.toString(), index)
+            else -> {
+                setResult(RESULT_CANCELED, returnIntent)
+                finish()
+                return false
             }
-
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
-            true
-        } else super.onOptionsItemSelected(item)
-
+        }
     }
 
     private fun retrieveMandatoryFields(): List<EditText?> {

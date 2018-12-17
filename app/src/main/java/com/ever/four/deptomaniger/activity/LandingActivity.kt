@@ -59,11 +59,14 @@ class LandingActivity : AppCompatActivity(), DragListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            recyclerAdapter.setupElements(viewModel?.getDatumList()?.value!!)
+        }
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == BundleIdentifier.NEW_ITEM) {
                 val result = data?.getSerializableExtra(BundleIdentifier.NEW_SHOP.Instance.toString())
 
-                viewModel?.addDataToList(result as ItemEntity)
+                viewModel?.setDataToList(result as ItemEntity)
                 //recyclerAdapter.addElement(result as ItemEntity)
             }
             if (requestCode == BundleIdentifier.MODIFIED_ITEM) {
@@ -71,11 +74,9 @@ class LandingActivity : AppCompatActivity(), DragListener {
                 var index = 0
                 index = data?.getIntExtra(BundleIdentifier.NEW_SHOP.Index.toString(), 0) as Int
 
-                viewModel?.addDataToList(index, result as ItemEntity)
+                viewModel?.setDataToList(index, result as ItemEntity)
             }
         }
-        if (resultCode == Activity.RESULT_CANCELED) {}
-
     }
 
     override fun onElementRemoved() {
