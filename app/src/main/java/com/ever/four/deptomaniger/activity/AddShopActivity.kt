@@ -50,9 +50,8 @@ class AddShopActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
         val returnIntent = Intent()
-        when (id) {
+        when (item.itemId) {
             R.id.menu_item -> {
                 var newShop = ItemEntity(expenseName.text.toString(), shopperName.text.toString(), inputTotal.text.toString().toDouble())
                 for (detailDescription in recyclerDetailAdapter.list) {

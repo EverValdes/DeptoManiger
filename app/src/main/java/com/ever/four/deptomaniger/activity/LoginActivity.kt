@@ -3,19 +3,16 @@ package com.ever.four.deptomaniger.activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import com.ever.four.deptomaniger.R
-import com.ever.four.deptomaniger.util.BundleIdentifier
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
-import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -73,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credentials).addOnCompleteListener {
             if (it.isSuccessful) {
                 firebaseAuth.currentUser?.let {
-                    var firebaseUser = it
+                    var fireBaseUser = it
                 }
             } else {
                 //authentication failed

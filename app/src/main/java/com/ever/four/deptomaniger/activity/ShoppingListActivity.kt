@@ -19,20 +19,29 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Typeface
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.ever.four.deptomaniger.model.ItemViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class ShoppingListActivity : AppCompatActivity(), DragListener {
 
 
     private lateinit var recyclerAdapter: RecyclerAdapterList
     private lateinit var itemTouchHelper: ItemTouchHelper
-
     private var viewModel: ItemViewModel? = null
+    private var firebaseAuth = FirebaseAuth.getInstance()
+    private var authListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener {
+        if (it.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shopping_list)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recyclerAdapter = RecyclerAdapterList(emptyList<ItemEntity>().toMutableList(), this)
         recyclerView.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
@@ -54,9 +63,28 @@ class ShoppingListActivity : AppCompatActivity(), DragListener {
         setupAddItemBtn()
     }
 
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        itemTouchHelper.startDrag(viewHolder)
+    override fun onStart() {
+        super.onStart()
+        firebaseAuth.addAuthStateListener(authListener)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.single_item_menu, menu)
+        var manageMenuItem: MenuItem = menu?.findItem(R.id.menu_item)!!
+
+        manageMenuItem?.title = resources.getString(R.string.sign_off)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item -> {
+                firebaseAuth.signOut()
+            }
+        }
+        return true
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_CANCELED) {
@@ -78,6 +106,12 @@ class ShoppingListActivity : AppCompatActivity(), DragListener {
             }
         }
     }
+
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
+    }
+
 
     override fun onElementRemoved() {
         displayNoDataHint()
