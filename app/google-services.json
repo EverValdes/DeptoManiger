@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "846427334247",
+    "firebase_url": "https://deptomaniger.firebaseio.com",
+    "project_id": "deptomaniger",
+    "storage_bucket": "deptomaniger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846427334247:android:ab81caded59db2cb",
+        "android_client_info": {
+          "package_name": "com.ever.four.deptomaniger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846427334247-oipulg47q1q35q76n0bbqos7d8fg0c0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ever.four.deptomaniger",
+            "certificate_hash": "b04b81ea641c67dd74e66eb663e9aa6fc4ddc3e4"
+          }
+        },
+        {
+          "client_id": "846427334247-86bj73b7783mjgtv6981k84l6mvcrlv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0PKfRooFzIyynzfTVqpD4m2u9kPY30bM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846427334247-86bj73b7783mjgtv6981k84l6mvcrlv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

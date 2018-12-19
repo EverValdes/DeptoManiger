@@ -17,8 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/large_space"
-                app:layout_constraintTop_toTopOf="parent"
-        >
+                app:layout_constraintTop_toTopOf="parent">
 
             <android.support.design.widget.TextInputEditText
                     android:id="@+id/expenseName"
@@ -40,30 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/shopper_name"/>
-
         </android.support.design.widget.TextInputLayout>
 
-
-        <!--<android.support.design.widget.TextInputLayout
-                android:id="@+id/listContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/large_space"
-                app:layout_constraintTop_toBottomOf="@+id/shopperContainer"
-        >
-
-            <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:minLines="4"
-                    android:scrollbars="vertical"
-                    android:hint="@string/list_of_expenses"/>
-
-
-        </android.support.design.widget.TextInputLayout>
-        -->
         <TextView
                 android:id="@+id/contentLabel"
                 android:layout_width="wrap_content"
@@ -72,8 +49,7 @@
                 android:layout_marginTop="@dimen/medium_space"
                 app:layout_constraintBottom_toTopOf="@id/listContainer"
                 app:layout_constraintTop_toBottomOf="@+id/shopperContainer"
-                app:layout_constraintStart_toStartOf="@+id/shopperContainer"
-        />
+                app:layout_constraintStart_toStartOf="@+id/shopperContainer"/>
 
         <FrameLayout
                 android:id="@+id/listContainer"
@@ -86,7 +62,6 @@
                     android:layout_margin="@dimen/large_space"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-
         </FrameLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -102,9 +77,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/total_expended"/>
-
         </android.support.design.widget.TextInputLayout>
     </android.support.constraint.ConstraintLayout>
-
-
 </android.support.v4.widget.NestedScrollView>

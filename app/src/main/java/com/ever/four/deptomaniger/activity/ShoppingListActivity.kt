@@ -12,7 +12,7 @@ import com.ever.four.deptomaniger.entity.ItemEntity
 import com.ever.four.deptomaniger.helper.DragListener
 import com.ever.four.deptomaniger.helper.ItemTouchHelperCallback
 import com.ever.four.deptomaniger.util.BundleIdentifier
-import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.activity_shopping_list.*
 import android.app.Activity
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -22,7 +22,7 @@ import android.graphics.Typeface
 import android.view.View
 import com.ever.four.deptomaniger.model.ItemViewModel
 
-class LandingActivity : AppCompatActivity(), DragListener {
+class ShoppingListActivity : AppCompatActivity(), DragListener {
 
 
     private lateinit var recyclerAdapter: RecyclerAdapterList
@@ -32,7 +32,7 @@ class LandingActivity : AppCompatActivity(), DragListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_landing)
+        setContentView(R.layout.activity_shopping_list)
 
         recyclerAdapter = RecyclerAdapterList(emptyList<ItemEntity>().toMutableList(), this)
         recyclerView.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?

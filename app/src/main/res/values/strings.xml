@@ -4,7 +4,10 @@
     <string name="error">Error</string>
     <string name="cancel">Close</string>
     <string name="retry">Retry</string>
-    <string name="no_data_entered">There is not data added at this time. \nTry adding a new one by tapping on the <b>Plus</b> button</string>
+    <string name="no_data_entered">There is not data added at this time. \nTry adding a new one by tapping on the <b>
+        Plus
+    </b> button
+    </string>
     <string name="unknown_error">Something went wrong, retry again or come back later</string>
     <string name="no_data_available">There is no available data at this time, try again or come back later</string>
     <string name="no_connection">There is no network at this time, try again or come back later</string>
@@ -17,7 +20,7 @@
     <string name="total">Total</string>
     <string name="total_expended">Total expended</string>
 
-    <string name="bullet_point">\u25CF </string>
+    <string name="bullet_point">\u25CF</string>
 
     <array name="main_items">
         <item>List - Basic Drag and Swipe</item>
@@ -36,4 +39,15 @@
         <item>Nine</item>
         <item>Ten</item>
     </array>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 </resources>
