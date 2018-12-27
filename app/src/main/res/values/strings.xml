@@ -12,6 +12,7 @@
     <string name="unknown_error">Something went wrong, retry again or come back later</string>
     <string name="no_data_available">There is no available data at this time, try again or come back later</string>
     <string name="no_connection">There is no network at this time, try again or come back later</string>
+    <string name="cancel_confirmation">Are you sure you want to cancel?</string>
 
     <!-- New expense view -->
     <string name="save">Save</string>

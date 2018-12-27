@@ -10,7 +10,7 @@ class ItemViewModel: ViewModel() {
     private var datum: MutableLiveData<MutableList<ItemEntity>> = MutableLiveData()
 
     init {
-        datum.value
+        datum.value = list
     }
     fun getDatumList(): LiveData<MutableList<ItemEntity>> {
         return datum
