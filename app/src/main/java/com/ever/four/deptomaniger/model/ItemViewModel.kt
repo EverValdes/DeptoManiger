@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.ever.four.deptomaniger.entity.ItemEntity
+import com.google.firebase.database.FirebaseDatabase
 
 class ItemViewModel: ViewModel() {
     private var list =  emptyList<ItemEntity>().toMutableList()
@@ -11,6 +12,7 @@ class ItemViewModel: ViewModel() {
 
     init {
         datum.value = list
+        var dbRef = FirebaseDatabase.getInstance().reference
     }
     fun getDatumList(): LiveData<MutableList<ItemEntity>> {
         return datum

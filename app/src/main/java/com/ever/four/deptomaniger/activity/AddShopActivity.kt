@@ -42,10 +42,6 @@ class AddShopActivity : AppCompatActivity() {
         recyclerDetailView.adapter = recyclerDetailAdapter
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        return super.onKeyDown(keyCode, event)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.single_item_menu, menu)
         manageMenuItem = menu?.findItem(R.id.menu_item)!!
